@@ -55,21 +55,17 @@ class State():
         return self.try_parse(value, parse_bool, ignore_malformed)
 
     def reconcile(self, element: et.Element, ignore_malformed=False) -> StateValues:
-        position = self.position
-        rotation = self.rotation
-        scale = self.scale
-        relative = self.relative
-
         position_value = first(map(element.get, POSITION_ALIASES))
         rotation_value = first(map(element.get, ROTATION_ALIASES))
         scale_value = first(map(element.get, SCALE_ALIASES))
         relative_value = first(map(element.get, RELATIVE_ALIASES))
 
         position = self.try_parse_vector(
-            position_value, ignore_malformed) or position
+            position_value, ignore_malformed) or Vector3.Zero()
         rotation = self.try_parse_vector(
-            rotation_value, ignore_malformed) or rotation
-        scale = self.try_parse_vector(scale_value, ignore_malformed) or scale
+            rotation_value, ignore_malformed) or Vector3.Zero()
+        scale = self.try_parse_vector(
+            scale_value, ignore_malformed) or Vector3.One()
         relative = self.try_parse_bool(relative_value, ignore_malformed)
         if relative is None:
             relative = self.relative

@@ -44,7 +44,7 @@ def transform(position, rotation, scale, relative, parent_state: State, context:
     quat = xyz_to_quat(rot_tensor)
     # Rotate the scaled offset to get the position
     pos = parent_state.position.get_tensor(context) + transform_by_quat(position.get_tensor(
-        context) * scale.get_tensor(context), quat)
+        context) * parent_state.scale.get_tensor(context), quat)
     # COmpose the rotations to get the rotation of the object
     rot = transform_quat_by_quat(
         quat, xyz_to_quat(parent_state.rotation.get_tensor(context)))

@@ -25,15 +25,16 @@ def load(xml: str | et.ElementTree, context: Context | None = None, state: State
 
     if context is None:
         context = Context()
+    root = tree.getroot()
 
-    context_element: et.Element = tree.find('context')
+    context_element: et.Element = root.find('context')
     if not context_element is None:
         context.fill(context_element, ignore_malformed)
 
     if state is None:
         state = State()
 
-    scene_element = tree.find('scene')
+    scene_element = root.find('scene')
     if scene_element is None:
         raise ValueError('No scene element found')
 
