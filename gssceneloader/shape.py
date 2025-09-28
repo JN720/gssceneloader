@@ -31,8 +31,8 @@ TAGS: dict[str, Callable[[torch.Tensor, torch.Tensor, torch.Tensor], morphs.Morp
     'scene': get_scene,
     'box': get_box,
     'cylinder': get_cylinder,
-    'sphere': get_cylinder,
-    'plane': get_cylinder
+    'sphere': get_sphere,
+    'plane': get_plane
 }
 
 

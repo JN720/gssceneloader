@@ -2,6 +2,7 @@ import xml.etree.cElementTree as et
 import pytest
 import os
 import genesis as gs
+from genesis.options.morphs import Box, Plane
 
 
 from ..gssceneloader.context import Context
@@ -22,12 +23,12 @@ class TestMorph:
 
     def test_box(self, state, context):
         tree = et.parse(os.path.join('data', 'box.xml'))
-        element = tree.getroot()  # .find('Box')
+        element = tree.getroot()
         morphs = []
-        assert element is not None
         new_state = get_morph(element, state, context, morphs)
 
         assert len(morphs) == 1
+        assert type(morphs[0]) is Box
         assert new_state.position.x == 1.1
         assert new_state.position.y == 2.2
         assert new_state.position.z == 3.3
@@ -35,6 +36,28 @@ class TestMorph:
         assert new_state.rotation.x == 0.0
         assert new_state.rotation.y == 0.0
         assert new_state.rotation.z == 0.0
+
+        assert new_state.scale.x == 1.0
+        assert new_state.scale.y == 1.0
+        assert new_state.scale.z == 1.0
+
+        assert new_state.relative == True
+
+    def test_plane(self, state, context):
+        tree = et.parse(os.path.join('data', 'plane.xml'))
+        element = tree.getroot()
+        morphs = []
+        new_state = get_morph(element, state, context, morphs)
+
+        assert len(morphs) == 1
+        assert type(morphs[0]) is Plane
+        assert new_state.position.x == 0.0
+        assert new_state.position.y == 0.0
+        assert new_state.position.z == 0.0
+
+        assert (new_state.rotation.x - 0.1).abs() < 1e-5
+        assert (new_state.rotation.y - 0.2).abs() < 1e-5
+        assert (new_state.rotation.z - 0.3).abs() < 1e-5
 
         assert new_state.scale.x == 1.0
         assert new_state.scale.y == 1.0
