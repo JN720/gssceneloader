@@ -35,3 +35,9 @@ class TestMorph:
         assert new_state.rotation.x == 0.0
         assert new_state.rotation.y == 0.0
         assert new_state.rotation.z == 0.0
+
+        assert new_state.scale.x == 1.0
+        assert new_state.scale.y == 1.0
+        assert new_state.scale.z == 1.0
+
+        assert new_state.relative == True
