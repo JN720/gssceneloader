@@ -10,16 +10,23 @@ RELATIVE_ALIASES = ['relative', 'rel']
 StateValues = tuple[Vector3, Vector3, Vector3, bool]
 
 
+def first(gen):
+    for x in gen:
+        if x:
+            return x
+    return None
+
+
 class State():
     position: Vector3
     rotation: Vector3
     scale: Vector3
     relative: bool
 
-    def __init__(self, position: Vector3 | None, rotation: Vector3 | None, scale: Vector3 | None, relative: bool = True):
-        self.position = position or Vector3.Zero
-        self.rotation = rotation or Vector3.Zero
-        self.scale = scale or Vector3.One
+    def __init__(self, position: Vector3 | None = None, rotation: Vector3 | None = None, scale: Vector3 | None = None, relative: bool = True):
+        self.position = position or Vector3.Zero()
+        self.rotation = rotation or Vector3.Zero()
+        self.scale = scale or Vector3.One()
         self.relative = relative
 
     def try_parse(self, value: str | None, parse: callable, ignore_malformed=False):
@@ -53,10 +60,10 @@ class State():
         scale = self.scale
         relative = self.relative
 
-        position_value = any(map(element.get, POSITION_ALIASES))
-        rotation_value = any(map(element.get, ROTATION_ALIASES))
-        scale_value = any(map(element.get, SCALE_ALIASES))
-        relative_value = any(map(element.get, RELATIVE_ALIASES))
+        position_value = first(map(element.get, POSITION_ALIASES))
+        rotation_value = first(map(element.get, ROTATION_ALIASES))
+        scale_value = first(map(element.get, SCALE_ALIASES))
+        relative_value = first(map(element.get, RELATIVE_ALIASES))
 
         position = self.try_parse_vector(
             position_value, ignore_malformed) or position

@@ -8,11 +8,11 @@ from ..context import Context
 class Vector3(ABC):
     @staticmethod
     def Zero():
-        return StaticVector3(0, 0, 0)
+        return StaticVector3(0.0, 0.0, 0.0)
 
     @staticmethod
     def One():
-        return StaticVector3(1, 1, 1)
+        return StaticVector3(1.0, 1.0, 1.0)
 
     @staticmethod
     def Parse(value: str):
